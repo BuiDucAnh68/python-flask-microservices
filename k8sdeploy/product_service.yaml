@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: product-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: product
+  template:
+    metadata:
+      labels:
+        app: product
+    spec:
+      containers:
+        - name: product
+          image: ducanh68/product-service
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-product
+spec:
+  selector:
+    app: product
+  type: LoadBalancer
+  ports:
+    - name: product
+      protocol: TCP
+      port: 5002
+      targetPort: 5002
